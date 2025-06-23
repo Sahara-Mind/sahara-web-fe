@@ -126,13 +126,13 @@ export const routes = {
     signUp1: "/auth/sign-up-1",
     signUp2: "/auth/sign-up-2",
     signUp3: "/auth/sign-up-3",
-    signUp4: "/auth/sign-up-4",
+    signUp4: "/sign-up",
     signUp5: "/auth/sign-up-5",
     // sign in
     signIn1: "/auth/sign-in-1",
     signIn2: "/auth/sign-in-2",
     signIn3: "/auth/sign-in-3",
-    signIn4: "/auth/sign-in-4",
+    signIn4: "/sign-in",
     signIn5: "/auth/sign-in-5",
     // forgot password
     forgotPassword1: "/auth/forgot-password-1",
