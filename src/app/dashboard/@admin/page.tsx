@@ -1,35 +1,40 @@
-import {Metadata} from 'next'
-import PageHeader from '@/app/shared/page-header'
+{// 'use client';
 
-export const metadata: Metadata = {
-    title: "New Page | Isomorphic",
-};
+// import { useState } from 'react';
+// import RetroTable from '@/app/shared/tables/basic/retro';
 
-const pageHeader = {
-    title: "New Page",
-    breadcrumb: [
-        {
-            href: "/",
-            name: "Home",
-        },
-        {
-            name: "New Page"
-        },
-    ],
-}
-const pageContent = {
-    title:"Page Contents"
+
+// const sampleData = [
+//   { id: 1, name: 'Alice', email: 'alice@example.com' },
+//   { id: 2, name: 'Bob', email: 'bob@example.com' },
+//   // Add more rows as needed
+// ];
+
+// export default function DashboardTablePage() {
+//   const [search, setSearch] = useState('');
+//   const filteredData = sampleData.filter(
+//     row =>
+//       row.name.toLowerCase().includes(search.toLowerCase()) ||
+//       row.email.toLowerCase().includes(search.toLowerCase())
+//   );
+
+//    return (
+//     <>
+
+//     <div className="p-6">
+//       <RetroTable searchAble tableHeader pagination />
+//     </div>
+//     </>
+//   );
+// }
 }
 
-export default function NewPage() {
-  return (
-    <>
-      <PageHeader
-        title={pageHeader.title}
-        breadcrumb={pageHeader.breadcrumb}
-      />
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis neque consequuntur ipsum aspernatur nemo quia, mollitia ullam eum officiis distinctio voluptatibus voluptas obcaecati deserunt aliquid vel quisquam numquam beatae esse ea ab ad consectetur odit quidem sint. Quos praesentium omnis ipsum, animi, expedita maxime voluptates nihil tempora tenetur, eius facilis.</p>
-    </>
-  );
+import SearchTablePage from "./therapist_list/page"
+
+export default function TableLayoutDemo() {
+  return(
+  <>
+    <SearchTablePage/>
+  </>
+  )
 }
- 
