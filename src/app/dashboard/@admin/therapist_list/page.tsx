@@ -21,7 +21,7 @@ const pageHeader = {
   ],
 };
 
-export default function SearchTablePage() {
+export default function TherapistList() {
   return (
     <TableLayout
       title={pageHeader.title}
