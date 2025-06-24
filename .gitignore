@@ -9,8 +9,8 @@
 /coverage
 
 ./packages/isomorphic-core/.turbo
-.turbo
-.packages
+.turbo/
+.packages/
 .node_modules
 # next.js
 /.next/
