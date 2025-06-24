@@ -1,6 +1,6 @@
 {
-  "name": "starter",
-  "version": "7.6.2",
+  "name": "sahara-minds",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev --port 3002",
@@ -41,7 +41,7 @@
     "@tanstack/react-table": "^8.21.2",
     "@uploadthing/react": "^7.3.0",
     "clsx": "^2.1.1",
-    "core": "workspace:*",
+    "core": "file:../../packages/isomorphic-core",
     "date-arithmetic": "^4.1.0",
     "dayjs": "^1.11.13",
     "eslint": "9.23.0",
@@ -63,7 +63,7 @@
     "rc-rate": "^2.13.1",
     "rc-slider": "^11.1.8",
     "rc-table": "7.50.4",
-    "react": "19.0.0",
+    "react": "18.3.1",
     "react-big-calendar": "^1.18.0",
     "react-calendar": "^5.1.0",
     "react-colorful": "^5.6.1",
@@ -71,7 +71,7 @@
     "react-countdown": "^2.3.6",
     "react-countup": "^6.5.3",
     "react-datepicker": "8.2.1",
-    "react-dom": "19.0.0",
+    "react-dom": "18.3.1",
     "react-dropzone": "^14.3.8",
     "react-email": "3.0.7",
     "react-hook-form": "^7.54.2",
@@ -86,7 +86,7 @@
     "react-use": "^17.6.0",
     "recharts": "^2.15.1",
     "resend": "4.1.2",
-    "rizzui": "^1.0.1",
+    "rizzui": "0.8.7",
     "sharp": "^0.33.5",
     "swiper": "^11.2.6",
     "tailwind-merge": "^3.0.2",
@@ -115,8 +115,8 @@
     "prettier": "3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "rimraf": "^6.0.1",
-    "tailwind-config": "workspace:*",
+    "tailwind-config": "file:../../packages/config-tailwind",
     "tailwindcss": "^3.4.17",
-    "typescript-config": "workspace:*"
+    "typescript-config": "file:../../packages/config-typescript"
   }
 }

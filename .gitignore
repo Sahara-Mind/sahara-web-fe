@@ -4,10 +4,11 @@
 /node_modules
 /.pnp
 .pnp.js
-
+.packages
 # testing
 /coverage
 
+./packages/isomorphic-core/.turbo
 # next.js
 /.next/
 /out/
@@ -35,5 +36,5 @@ yarn-error.log*
 .vercel
 .vscode
 
-
+.turbo
 tsconfig.tsbuildinfo

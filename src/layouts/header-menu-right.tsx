@@ -1,5 +1,4 @@
-import { Badge } from "rizzui/badge";
-import { ActionIcon } from "rizzui/action-icon";
+import { Badge, ActionIcon } from "rizzui";
 import MessagesDropdown from "@/layouts/messages-dropdown";
 import ProfileMenu from "@/layouts/profile-menu";
 import RingBellSolidIcon from "@core/components/icons/ring-bell-solid";

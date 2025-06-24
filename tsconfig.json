@@ -19,7 +19,7 @@
       "@/*": ["src/*"],
       "@public/*": ["public/*"],
       "@shared/*": ["src/app/shared*"],
-      "@core/*": ["../../packages/isomorphic-core/src/*"]
+      "@core/*": ["packages/isomorphic-core/src/*"]
     },
     "plugins": [
       {
@@ -27,7 +27,7 @@
       }
     ]
   },
-  "extends": "typescript-config/nextjs.json",
+  "extends": "./packages/config-typescript/nextjs.json",
   "include": [
     "next-env.d.ts",
     "additional.d.ts",

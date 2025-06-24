@@ -1,5 +1,5 @@
 import type { Config } from "tailwindcss";
-import sharedConfig from "tailwind-config";
+import sharedConfig from "./packages/config-tailwind/tailwind.config";
 
 const config: Pick<Config, "prefix" | "presets" | "content"> = {
   content: [
