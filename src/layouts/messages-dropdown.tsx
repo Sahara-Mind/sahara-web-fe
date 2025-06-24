@@ -1,17 +1,126 @@
 "use client";
 
-import { routes } from "@/config/routes";
-import { messagesData } from "@/data/messages";
-import { useMedia } from "@core/hooks/use-media";
-import cn from "@core/utils/class-names";
+import Link from "next/link";
+import { ReactElement, ReactNode, RefObject, useState } from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import Link from "next/link";
-import { ReactElement, RefObject, useState } from "react";
+import { Title, Text, Popover, Avatar, Badge } from "rizzui";
+import cn from "@/utils/class-names";
+import { routes } from "@/config/routes";
+import { useMedia } from "@/hooks/use-media";
+import SimpleBar from "@/components/ui/simplebar";
 import { PiCheck } from "react-icons/pi";
-import { Avatar, Badge, Popover, Text, Title } from "rizzui";
 
 dayjs.extend(relativeTime);
+
+const data = [
+  {
+    id: 1,
+    message: `It is nice to be chatting with you. Omnis,
+        quidem non. Sint inventore quasi temporibus architecto eaque,
+        natus aspernatur minus?`,
+    avatar: [
+      "https://isomorphic-furyroad.s3.amazonaws.com/public/avatars/avatar-01.webp",
+    ],
+    name: "Wade Warren",
+    unRead: true,
+    sendTime: "2023-06-01T09:35:31.820Z",
+  },
+  {
+    id: 2,
+    message: ` Oh... Let's move on to something else for a bit. Sint inventore quasi temporibus architecto eaque,
+        natus aspernatur minus?`,
+    avatar: [
+      "https://isomorphic-furyroad.s3.amazonaws.com/public/avatars/avatar-04.webp",
+    ],
+    name: "Jane Cooper",
+    unRead: true,
+    sendTime: "2023-05-30T09:35:31.820Z",
+  },
+  {
+    id: 3,
+    message: `You: I never received any phone calls about it. Omnis,
+        quidem non. Sint inventore quasi temporibus architecto eaque,
+        natus aspernatur minus?`,
+    avatar: [
+      "https://isomorphic-furyroad.s3.amazonaws.com/public/avatars/avatar-12.webp",
+    ],
+    name: "Leslie Alexander",
+    unRead: false,
+    sendTime: "2023-06-01T09:35:31.820Z",
+  },
+  {
+    id: 4,
+    message: `You: But you'll need to type in every possible word. Omnis,
+        quidem non. Sint inventore quasi temporibus architecto eaque,
+        natus aspernatur minus?`,
+    avatar: [
+      "https://isomorphic-furyroad.s3.amazonaws.com/public/avatars/avatar-07.webp",
+    ],
+    name: "John Doe",
+    unRead: false,
+    sendTime: "2023-05-21T09:35:31.820Z",
+  },
+  {
+    id: 5,
+    message: `They were delighted and set to work immediately. Sint inventore quasi temporibus architecto eaque,
+        natus aspernatur minus?`,
+    avatar: [
+      "https://isomorphic-furyroad.s3.amazonaws.com/public/avatars/avatar-14.webp",
+      "https://isomorphic-furyroad.s3.amazonaws.com/public/avatars/avatar-13.webp",
+    ],
+    name: "Design & Frontend",
+    unRead: true,
+    sendTime: "2023-06-01T09:35:31.820Z",
+  },
+  {
+    id: 6,
+    message: `Hows going everything in our laravel project. Omnis,
+        quidem non. Sint inventore quasi temporibus architecto eaque,
+        natus aspernatur minus?`,
+    avatar: [
+      "https://isomorphic-furyroad.s3.amazonaws.com/public/avatars/avatar-01.webp",
+      "https://isomorphic-furyroad.s3.amazonaws.com/public/avatars/avatar-05.webp",
+    ],
+    name: "Laravel",
+    unRead: true,
+    sendTime: "2023-05-15T09:35:31.820Z",
+  },
+  {
+    id: 7,
+
+    name: "WordPress",
+    avatar: [
+      "https://isomorphic-furyroad.s3.amazonaws.com/public/avatars/avatar-08.webp",
+      "https://isomorphic-furyroad.s3.amazonaws.com/public/avatars/avatar-09.webp",
+    ],
+    unRead: false,
+    sendTime: "2023-05-16T09:35:31.820Z",
+  },
+  {
+    id: 8,
+    message: `You: which is actually pretty clever and funny, inventore quasi temporibus architecto eaque,
+        natus aspernatur minus?`,
+    avatar: [
+      "https://isomorphic-furyroad.s3.amazonaws.com/public/avatars/avatar-11.webp",
+    ],
+    name: "Jenny Doe",
+    unRead: false,
+    sendTime: "2023-05-01T09:35:31.820Z",
+  },
+  {
+    id: 9,
+    message: `You could try ELIZA bot, it was a software tween herself. Omnis,
+        quidem non. Sint inventore quasi temporibus architecto eaque,
+        natus aspernatur minus?`,
+    avatar: [
+      "https://isomorphic-furyroad.s3.amazonaws.com/public/avatars/avatar-03.webp",
+    ],
+    name: "Bruce Warren",
+    unRead: true,
+    sendTime: "2023-04-01T09:35:31.820Z",
+  },
+];
 
 function MessagesList({
   setIsOpen,
@@ -21,9 +130,7 @@ function MessagesList({
   return (
     <div className="w-[320px] text-left sm:w-[360px] 2xl:w-[420px] rtl:text-right">
       <div className="mb-2 flex items-center justify-between ps-6">
-        <Title as="h5" fontWeight="semibold">
-          Messages
-        </Title>
+        <Title as="h5">Messages</Title>
         <Link
           href={routes.support.inbox}
           onClick={() => setIsOpen(false)}
@@ -32,9 +139,9 @@ function MessagesList({
           View all
         </Link>
       </div>
-      <div className="custom-scrollbar overflow-y-auto scroll-smooth max-h-[406px]">
+      <SimpleBar className="max-h-[406px]">
         <div className="grid grid-cols-1 ps-4">
-          {messagesData.map((item) => (
+          {data.map((item) => (
             <div
               key={item.name + item.id}
               className="group grid cursor-pointer grid-cols-[auto_minmax(0,1fr)] gap-2.5 rounded-md px-2 py-2.5 pe-3 transition-colors hover:bg-gray-100 dark:hover:bg-gray-50"
@@ -45,7 +152,7 @@ function MessagesList({
                   name={item.name}
                   className={cn(
                     item.avatar.length > 1 &&
-                      "relative -end-1 -top-0.5 !h-9 !w-9"
+                      "relative -end-1 -top-0.5 !h-9 !w-9",
                   )}
                 />
                 {item.avatar.length > 1 && (
@@ -58,16 +165,16 @@ function MessagesList({
               </div>
               <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center">
                 <div className="w-full">
-                  <Text className="mb-0.5 w-11/12 truncate text-sm font-semibold text-gray-900 dark:text-gray-700">
+                  <Title as="h6" className="mb-0.5 text-sm font-semibold">
                     {item.name}
-                  </Text>
+                  </Title>
                   <div className="flex">
                     <Text className="w-10/12 truncate pe-7 text-xs text-gray-500">
                       {item.message}
                     </Text>
-                    <Text className="ms-auto whitespace-nowrap pe-8 text-xs text-gray-500">
+                    <span className="ms-auto whitespace-nowrap pe-8 text-xs text-gray-500">
                       {dayjs(item.sendTime).fromNow(true)}
-                    </Text>
+                    </span>
                   </div>
                 </div>
                 <div className="ms-auto flex-shrink-0">
@@ -88,7 +195,7 @@ function MessagesList({
             </div>
           ))}
         </div>
-      </div>
+      </SimpleBar>
     </div>
   );
 }
@@ -96,7 +203,7 @@ function MessagesList({
 export default function MessagesDropdown({
   children,
 }: {
-  children: ReactElement & { ref?: RefObject<any> };
+  children: ReactElement;
 }) {
   const isMobile = useMedia("(max-width: 480px)", false);
   const [isOpen, setIsOpen] = useState(false);
@@ -108,7 +215,7 @@ export default function MessagesDropdown({
       placement={isMobile ? "bottom" : "bottom-end"}
     >
       <Popover.Trigger>{children}</Popover.Trigger>
-      <Popover.Content className="z-[9999] pb-6 pe-6 ps-0 pt-5 dark:bg-gray-100 [&>svg]:hidden [&>svg]:dark:fill-gray-100 sm:[&>svg]:inline-flex">
+      <Popover.Content className="z-[9999] pb-6 pe-6 ps-0 pt-5 dark:bg-gray-100 [&>svg]:hidden sm:[&>svg]:inline-flex [&>svg]:dark:fill-gray-100">
         <MessagesList setIsOpen={setIsOpen} />
       </Popover.Content>
     </Popover>

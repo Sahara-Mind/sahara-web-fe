@@ -1,17 +1,26 @@
 "use client";
 
-import { DrawerPlacements, useDrawer } from "@/app/shared/drawer-views/use-drawer";
+import {
+  DrawerPlacements,
+  useDrawer,
+} from "@/app/shared/drawer-views/use-drawer";
 import { ActionIcon } from "rizzui";
-import cn from "@core/utils/class-names";
+import cn from "@/utils/class-names";
 import { ReactNode } from "react";
 
 interface Props {
   view: ReactNode;
   placement?: DrawerPlacements;
+  containerClassName?: string;
   className?: string;
 }
 
-export default function HamburgerButton({ view, placement = "left", className }: Props) {
+export default function HamburgerButton({
+  view,
+  placement = "left",
+  containerClassName = "max-w-[320px]",
+  className,
+}: Props) {
   const { openDrawer } = useDrawer();
   return (
     <ActionIcon
@@ -22,6 +31,7 @@ export default function HamburgerButton({ view, placement = "left", className }:
         openDrawer({
           view,
           placement,
+          containerClassName,
         })
       }
     >

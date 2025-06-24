@@ -1,24 +1,27 @@
 import type { Metadata } from "next";
 import { inter, lexendDeca } from "@/app/fonts";
-import cn from "@core/utils/class-names";
-import NextProgress from "@core/components/next-progress";
+import cn from "@/utils/class-names";
+import NextProgress from "@/components/next-progress";
 import HydrogenLayout from "@/layouts/hydrogen/layout";
 import { ThemeProvider, JotaiProvider } from "@/app/shared/theme-provider";
 import GlobalDrawer from "@/app/shared/drawer-views/container";
 import GlobalModal from "@/app/shared/modal-views/container";
 
-
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Sahara Minds Web Application",
-  description: "This is the isomorphic starter pack for sahara minds",
+  title: "App Name",
+  description: "Write your app description",
 };
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html
-    //   // 💡 Prevent next-themes hydration warning
+      // 💡 Prevent next-themes hydration warning
       suppressHydrationWarning
     >
       <body
@@ -30,10 +33,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <NextProgress />
           <JotaiProvider>
             <HydrogenLayout>{children}</HydrogenLayout>
-            <GlobalDrawer /> 
+            <GlobalDrawer />
             <GlobalModal />
           </JotaiProvider>
-         </ThemeProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
