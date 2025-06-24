@@ -1,4 +1,4 @@
-import Logo from "@/components/icons/logo";
+import Logo from "@/components/icons/sahara-logo";
 import SignInForm from "./sign-in-form";
 
 export default function SignInPage() {
