@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
@@ -8,6 +9,7 @@ import { useMedia } from '@/hooks/use-media';
 import { Form } from '@/components/ui/form';
 import { routes } from '@/config/routes';
 import { SignUpSchema, signUpSchema } from '@/validators/signup.schema';
+
 
 const initialValues = {
   email: '',
@@ -24,7 +26,7 @@ export default function SignUpForm() {
   };
 
   return (
-    <>
+    <React.Fragment>
       <Form<SignUpSchema>
         validationSchema={signUpSchema}
         resetValues={reset}
@@ -95,6 +97,6 @@ export default function SignUpForm() {
           Sign In
         </Link>
       </Text>
-    </>
+    </React.Fragment>
   );
 }
