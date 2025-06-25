@@ -1,5 +1,6 @@
 'use client';
 import '@/app/globals.css'
+
 import Link from 'next/link';
 import { routes } from '@/config/routes';
 import Image from 'next/image';
