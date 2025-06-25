@@ -4,7 +4,7 @@ import {
   validateEmail,
   validatePassword,
   validateConfirmPassword,
-} from './common-rules';
+} from '@/validators/common-rules';
 
 // form zod validation schema
 export const signUpSchema = z.object({
