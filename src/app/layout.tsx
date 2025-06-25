@@ -29,14 +29,7 @@ export default function RootLayout({
         suppressHydrationWarning
         className={cn(inter.variable, lexendDeca.variable, "font-inter")}
       >
-        <ThemeProvider>
-          <NextProgress />
-          <JotaiProvider>
-            <HydrogenLayout>{children}</HydrogenLayout>
-            <GlobalDrawer />
-            <GlobalModal />
-          </JotaiProvider>
-        </ThemeProvider>
+        {children}
       </body>
     </html>
   );
