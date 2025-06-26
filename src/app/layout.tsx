@@ -32,7 +32,7 @@ export default function RootLayout({
         <ThemeProvider>
           <NextProgress />
           <JotaiProvider>
-            <HydrogenLayout>{children}</HydrogenLayout>
+            {children}
             <GlobalDrawer />
             <GlobalModal />
           </JotaiProvider>
