@@ -105,6 +105,7 @@ export const routes = {
   maintenance: "/maintenance",
   blank: "/blank",
   dashboard: "/dashboard",
+  therapist: "/dashboard/therapist-list",
   auth: {
     // sign in
     signIn: "/sign-in",
