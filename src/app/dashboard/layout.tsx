@@ -15,7 +15,6 @@ export default function DashboardLayout({
   return (
     <React.Fragment>
       <HydrogenLayout>
-        {children}
         {admin}
       </HydrogenLayout>
       <GlobalDrawer />
