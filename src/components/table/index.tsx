@@ -1,27 +1,18 @@
 "use client";
 
-import { isEmpty } from "lodash";
-import { Fragment } from "react";
+import React from "react";
 import cn from "@/utils/class-names";
+import { isEmpty } from "lodash";
 import { Box, Empty, Loader, Table, Text, Title } from "rizzui";
-import { Column, flexRender } from "@tanstack/react-table";
-import { useScrollPosition } from "@/hooks/use-Scroll-position";
+import { flexRender, Column } from "@tanstack/react-table";
+import { useScrollableSlider } from "@/hooks/use-scrollable-slider";
 import { PiCaretDownFill, PiCaretUpFill } from "react-icons/pi";
-import {
-  CustomBodyCellProps,
-  CustomHeaderCellProps,
-  MainTableProps,
-  PinnedRowProps,
-} from "@/components/table/table-types";
 import { pinningStyles } from "@/components/table/table-pinning.style";
+import {
+  MainTableProps,
+} from "@/components/table/table-types";
 
-// Typescript Declaration for TableMeta
-declare module '@tanstack/react-table' {
-  interface TableMeta<TData extends unknown> {
-    handleDeleteRow: (row: TData) => void;
-  }
-}
-// Helper to get column pinning/resizing options
+// Utility
 function getColumnOptions<TData>(column: Column<TData, unknown>) {
   const canResize = column.getCanResize?.() ?? false;
   const canPin = column.getCanPin?.() ?? false;
@@ -33,17 +24,16 @@ function getColumnOptions<TData>(column: Column<TData, unknown>) {
 
 export default function MainTable<TData extends Record<string, any>>({
   table,
-  dataIds,
-  variant = "classic",
+  variant = "retro",
   classNames,
-  columnOrder,
   isLoading = false,
   showLoadingText = false,
-  components,
-  stickyHeader = false,
 }: MainTableProps<TData>) {
-  const { containerRef, tableRef, isLeftScrollable, isRightScrollable } =
-    useScrollPosition();
+  const {
+  containerRef,
+  isTopScrollable,
+  isBottomScrollable,
+} = useScrollableSlider();
 
   if (!table) return null;
 
@@ -51,333 +41,128 @@ export default function MainTable<TData extends Record<string, any>>({
     return (
       <div className="flex h-full min-h-[128px] flex-col items-center justify-center">
         <Loader variant="spinner" size="xl" />
-        {showLoadingText ? (
+        {showLoadingText && (
           <Title as="h6" className="-me-2 mt-4 font-medium text-gray-500">
             Loading...
           </Title>
-        ) : null}
+        )}
       </div>
     );
   }
-
-  const headerParam = {
-    table,
-    dataIds,
-    columnOrder,
-    isLeftScrollable,
-    isRightScrollable,
-  };
-
-  const rowParam = {
-    table,
-    dataIds,
-    columnOrder,
-    isLeftScrollable,
-    isRightScrollable,
-  };
 
   const mainRows = table.getIsSomeRowsPinned()
     ? table.getCenterRows()
     : table.getRowModel().rows;
 
   return (
-    <>
-      <Box
-        ref={containerRef}
-        className={cn(
-          "custom-scrollbar w-full max-w-full overflow-x-auto scroll-smooth",
-          stickyHeader && "max-h-[600px] overflow-y-auto",
-          classNames?.container
-        )}
-      >
-        <Table
-          ref={tableRef}
-          variant={variant}
-          style={{
-            width: table.getTotalSize(),
-          }}
+    <React.Fragment>
+      <div className="relative">
+        {/* Scrollable Area */}
+        <Box
+          ref={containerRef}
           className={cn(
-            pinningStyles.baseStyle,
-            pinningStyles.variants[variant],
-            classNames?.tableClassName
+            "custom-scrollbar w-full max-w-full overflow-x-auto scroll-smooth",
+            classNames?.container
           )}
         >
-          <Fragment>
-            {components?.header ? (
-              components.header(headerParam)
-            ) : (
-              <Table.Header
-                className={cn(
-                  stickyHeader && "sticky top-0 z-10",
-                  classNames?.headerClassName
-                )}
-              >
-                {table.getHeaderGroups().map((headerGroup) => {
-                  const headerCellParam = {
-                    columnOrder,
-                    headerGroup,
-                    isLeftScrollable,
-                    isRightScrollable,
-                  };
-                  return (
-                    <Table.Row
-                      key={headerGroup.id}
-                      className={classNames?.rowClassName}
-                    >
-                      {components?.headerCell ? (
-                        components.headerCell(headerCellParam)
-                      ) : (
-                        <TableHeadBasic
-                          headerGroup={headerGroup}
-                          isLeftScrollable={isLeftScrollable}
-                          isRightScrollable={isRightScrollable}
-                          className={classNames?.headerCellClassName}
-                        />
-                      )}
-                    </Table.Row>
-                  );
-                })}
-              </Table.Header>
-            )}
-          </Fragment>
-
-          <Table.Body className={classNames?.bodyClassName}>
-            {table.getTopRows().map((row) => (
-              <PinnedRow
-                key={row.id}
-                row={row}
-                table={table}
-                isLeftScrollable={isLeftScrollable}
-                isRightScrollable={isRightScrollable}
-                className={classNames?.rowClassName}
-                tableCellClassName={classNames?.cellClassName}
-              />
-            ))}
-
-            {components?.bodyRow ? (
-              components.bodyRow(rowParam)
-            ) : (
-              <>
-                {mainRows.map((row) => (
-                  <Fragment key={row.id}>
-                    <Table.Row className={classNames?.rowClassName}>
-                      {row.getVisibleCells().map((cell) => {
-                        const bodyCellParam = {
-                          cell,
-                          columnOrder,
-                          isLeftScrollable,
-                          isRightScrollable,
-                        };
-                        return (
-                          <Fragment key={cell.id}>
-                            {components?.bodyCell ? (
-                              components.bodyCell(bodyCellParam)
-                            ) : (
-                              <TableCellBasic
-                                cell={cell}
-                                isLeftScrollable={isLeftScrollable}
-                                isRightScrollable={isRightScrollable}
-                                className={classNames?.cellClassName}
-                              />
-                            )}
-                          </Fragment>
-                        );
-                      })}
-                    </Table.Row>
-
-                    {/* custom-expanded-component start  */}
-                    {components?.expandedComponent && row.getIsExpanded() && (
-                      <Table.Row className={classNames?.expandedRowClassName}>
-                        <Table.Cell
-                          className={cn(
-                            "!p-0",
-                            classNames?.expandedCellClassName
-                          )}
-                          colSpan={row.getVisibleCells().length}
-                        >
-                          {components.expandedComponent(row)}
-                        </Table.Cell>
-                      </Table.Row>
-                    )}
-                    {/* customExpandedComponent end */}
-                  </Fragment>
-                ))}
-              </>
-            )}
-
-            {table.getBottomRows().map((row) => (
-              <PinnedRow
-                row={row}
-                key={row.id}
-                table={table}
-                isLeftScrollable={isLeftScrollable}
-                isRightScrollable={isRightScrollable}
-                className={classNames?.rowClassName}
-                tableCellClassName={classNames?.cellClassName}
-              />
-            ))}
-          </Table.Body>
-        </Table>
-      </Box>
-
-      {isEmpty(table.getRowModel().rows) && (
-        <Box className="py-5 text-center lg:py-8">
-          <Empty /> <Text className="mt-3">No Data</Text>
-        </Box>
-      )}
-    </>
-  );
-}
-
-// Basic Header component
-export function TableHeadBasic<TData extends Record<string, any>>({
-  headerGroup,
-  isLeftScrollable,
-  isRightScrollable,
-  className,
-}: CustomHeaderCellProps<TData>) {
-  if (!headerGroup) return null;
-
-  function getColumnOptions(column: Column<TData, unknown>): { canResize: any; canPin: any; isPinned: any; isLeftPinned: any; isRightPinned: any; } {
-    const canResize = column.getCanResize?.() ?? false;
-    const canPin = column.getCanPin?.() ?? false;
-    const isPinned = column.getIsPinned?.() ?? false;
-    const isLeftPinned = isPinned === "left";
-    const isRightPinned = isPinned === "right";
-    return { canResize, canPin, isPinned, isLeftPinned, isRightPinned };
-  }
-  return (
-    <>
-      {headerGroup.headers.map((header) => {
-        const { canResize, canPin, isPinned, isLeftPinned, isRightPinned } =
-          getColumnOptions(header.column);
-
-        return (
-          <Table.Head
-            key={header.id}
-            colSpan={header.colSpan}
-            style={{
-              left: isLeftPinned ? header.column.getStart("left") : undefined,
-              right: isRightPinned
-                ? header.column.getAfter("right")
-                : undefined,
-              width: header.getSize(),
-            }}
+          <Table
+            variant={variant}
+            style={{ width: table.getTotalSize() }}
             className={cn(
-              "group",
-              isPinned && canPin && "sticky z-10",
-              !isPinned && canResize && "relative",
-              isPinned && isLeftScrollable && "sticky-right",
-              isPinned && isRightScrollable && "sticky-left",
-              className
+              pinningStyles.baseStyle,
+              pinningStyles.variants[variant],
+              classNames?.tableClassName
             )}
           >
-            <Box className="flex items-start">
-              {header.isPlaceholder
-                ? null
-                : flexRender(
-                    header.column.columnDef.header,
-                    header.getContext()
-                  )}
+            {/* Table Header */}
+            <Table.Header className={cn("sticky top-0 z-10", classNames?.headerClassName)}>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <Table.Row key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => {
+                    const { isLeftPinned, isRightPinned } = getColumnOptions(header.column);
+                    return (
+                      <Table.Head
+                        key={header.id}
+                        style={{
+                          left: isLeftPinned ? header.column.getStart("left") : undefined,
+                          right: isRightPinned ? header.column.getAfter("right") : undefined,
+                          width: header.getSize(),
+                        }}
+                        className={cn(
+                          isLeftPinned && isTopScrollable && "sticky-right",
+                          isRightPinned && isBottomScrollable && "sticky-left",
+                          "group"
+                        )}
+                      >
+                        <Box className="flex items-start">
+                          {header.isPlaceholder
+                            ? null
+                            : flexRender(header.column.columnDef.header, header.getContext())}
 
-              {header.column.getCanSort() ? (
-                <button
-                  type="button"
-                  onClick={header.column.getToggleSortingHandler()}
-                  className="ms-1 inline-block"
-                  aria-label="Sort by column"
-                >
-                  {{
-                    asc: <PiCaretUpFill size={14} />,
-                    desc: <PiCaretDownFill size={14} />,
-                  }[header.column.getIsSorted() as string] ??
-                    (header.column.columnDef.header !== "" && (
-                      <PiCaretDownFill size={14} />
-                    ))}
-                </button>
-              ) : null}
-            </Box>
+                          {header.column.getCanSort() && (
+                            <button
+                              type="button"
+                              onClick={header.column.getToggleSortingHandler()}
+                              className="ms-1"
+                              aria-label="Sort"
+                            >
+                              {{
+                                asc: <PiCaretUpFill size={14} />,
+                                desc: <PiCaretDownFill size={14} />,
+                              }[header.column.getIsSorted() as string] ??
+                                (header.column.columnDef.header !== "" && (
+                                  <PiCaretDownFill size={14} />
+                                ))}
+                            </button>
+                          )}
+                        </Box>
+                      </Table.Head>
+                    );
+                  })}
+                </Table.Row>
+              ))}
+            </Table.Header>
 
-            {header.column.getCanResize() && (
-              <div
-                {...{
-                  onDoubleClick: () => header.column.resetSize(),
-                  onMouseDown: header.getResizeHandler(),
-                  onTouchStart: header.getResizeHandler(),
-                }}
-                className="absolute end-0 top-0 hidden h-full w-0.5 cursor-w-resize bg-gray-400 group-hover:block"
-              />
-            )}
-          </Table.Head>
-        );
-      })}
-    </>
-  );
-}
+            {/* Table Body */}
+            <Table.Body className={classNames?.bodyClassName}>
+              {mainRows.map((row) => (
+                <Table.Row key={row.id} className={classNames?.rowClassName}>
+                  {row.getVisibleCells().map((cell) => {
+                    const { isLeftPinned, isRightPinned } = getColumnOptions(cell.column);
+                    return (
+                      <Table.Cell
+                        key={cell.id}
+                        style={{
+                          left: isLeftPinned ? cell.column.getStart("left") : undefined,
+                          right: isRightPinned ? cell.column.getAfter("right") : undefined,
+                          width: cell.column.getSize(),
+                        }}
+                        className={cn(
+                          isLeftPinned && isTopScrollable && "sticky-right",
+                          isRightPinned && isBottomScrollable && "sticky-left",
+                          classNames?.cellClassName
+                        )}
+                      >
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </Table.Cell>
+                    );
+                  })}
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table>
+        </Box>
+      </div>
+      <div className="absolute bottom-2 right-4 z-20 flex gap-2">
+</div>
 
-// Basic Cell component
-export function TableCellBasic<TData extends Record<string, any>>({
-  cell,
-  isLeftScrollable,
-  isRightScrollable,
-  className,
-}: CustomBodyCellProps<TData>) {
-  if (!cell) return null;
-
-  const { canResize, canPin, isPinned, isLeftPinned, isRightPinned } =
-    getColumnOptions(cell.column);
-
-  return (
-    <Table.Cell
-      style={{
-        left: isLeftPinned ? cell!.column.getStart("left") : undefined,
-        right: isRightPinned ? cell.column.getAfter("right") : undefined,
-        width: cell.column.getSize(),
-      }}
-      className={cn(
-        isPinned && canPin && "sticky z-10",
-        !isPinned && canResize && "relative",
-        isPinned && isLeftScrollable && "sticky-right",
-        isPinned && isRightScrollable && "sticky-left",
-        className
+      {/* Empty State */}
+      {isEmpty(table.getRowModel().rows) && (
+        <Box className="py-5 text-center">
+          <Empty />
+          <Text className="mt-3">No Data</Text>
+        </Box>
       )}
-    >
-      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-    </Table.Cell>
-  );
-}
-
-// Pinned Row Component
-export function PinnedRow<TData extends Record<string, any>>({
-  row,
-  // table,
-  isLeftScrollable,
-  isRightScrollable,
-  className,
-  tableCellClassName,
-}: PinnedRowProps<TData>) {
-  const isTopPinned = row.getIsPinned() === "top";
-  const isBottomPinned = row.getIsPinned() === "bottom";
-  return (
-    <Table.Row
-      className={cn(
-        "sticky z-20 bg-white dark:bg-gray-50",
-        isTopPinned && "-top-px shadow-[0px_2px_2px_0px_#0000000D]",
-        isBottomPinned && "-bottom-0.5 shadow-[rgba(0,0,0,0.24)_0px_3px_8px]",
-        className
-      )}
-    >
-      {row.getVisibleCells().map((cell) => {
-        return (
-          <TableCellBasic
-            key={cell.id}
-            cell={cell}
-            isLeftScrollable={isLeftScrollable}
-            isRightScrollable={isRightScrollable}
-            className={tableCellClassName}
-          />
-        );
-      })}
-    </Table.Row>
+    </React.Fragment>
   );
 }
