@@ -42,14 +42,14 @@ function WidgetCard({
       className={cn(
         widgetCardClasses.base,
         widgetCardClasses.rounded[rounded],
-        className
+        className,
       )}
       ref={ref}
     >
       <div
         className={cn(
           action && "flex items-start justify-between",
-          headerClassName
+          headerClassName,
         )}
       >
         <div>

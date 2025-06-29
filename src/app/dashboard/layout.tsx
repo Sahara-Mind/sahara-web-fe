@@ -14,9 +14,7 @@ export default function DashboardLayout({
 }) {
   return (
     <React.Fragment>
-      <HydrogenLayout>
-        {admin}
-      </HydrogenLayout>
+      <HydrogenLayout>{admin}</HydrogenLayout>
       <GlobalDrawer />
       <GlobalModal />
     </React.Fragment>

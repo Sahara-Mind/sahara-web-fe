@@ -14,7 +14,7 @@ const pageHeader = {
   title: "Therapists List",
   breadcrumb: [
     {
-      href: routes.therapist.therapistList,
+      href: routes.therapist.list,
       name: "Dashboard",
     },
     {

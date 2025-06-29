@@ -74,7 +74,7 @@ export function Modal({
         className={cn(
           "rizzui-modal-area",
           modalStyles.area,
-          size !== "full" && [!noGutter && "p-4 sm:p-5"]
+          size !== "full" && [!noGutter && "p-4 sm:p-5"],
         )}
       >
         <DialogBackdrop
@@ -82,7 +82,7 @@ export function Modal({
           className={cn(
             "rizzui-modal-overlay",
             modalStyles.overlay,
-            overlayClassName
+            overlayClassName,
           )}
         />
         <DialogPanel
@@ -92,7 +92,7 @@ export function Modal({
             modalStyles.panel,
             size !== "full" && modalStyles.rounded[rounded],
             !customSize && customSize !== 0 && modalStyles.size[size],
-            containerClassName
+            containerClassName,
           )}
           {...((customSize || customSize === 0) && {
             style: {

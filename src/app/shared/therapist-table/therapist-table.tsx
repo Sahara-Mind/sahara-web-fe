@@ -1,6 +1,5 @@
 "use client";
 
-
 import { useState } from "react";
 import { createColumnHelper } from "@tanstack/react-table";
 import Table from "@/components/table";
@@ -15,8 +14,7 @@ import { PiMagnifyingGlassBold } from "react-icons/pi";
 import { DemoData } from "@/data/demo-data";
 import { useTanStackTable } from "@/components/table/use-TanStack-Table";
 
-
-declare module '@tanstack/react-table' {
+declare module "@tanstack/react-table" {
   interface TableMeta<TData extends unknown> {
     handleDeleteRow: (row: TData) => void;
   }
@@ -32,8 +30,6 @@ export type TherapistDataType = {
   phone: number;
   status: string;
 };
-
-
 
 // 2. Table columns
 const columnHelper = createColumnHelper<TherapistDataType>();
@@ -104,7 +100,7 @@ export default function TherapistTable({ className }: { className?: string }) {
 
   const [search, setSearch] = useState("");
   const filteredData = data.filter((t) =>
-    t.name.toLowerCase().includes(search.toLowerCase())
+    t.name.toLowerCase().includes(search.toLowerCase()),
   );
 
   // Replace with your TanStack Table hook if needed

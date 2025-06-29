@@ -23,7 +23,7 @@ export default function GlobalDrawer() {
       overlayClassName="dark:bg-opacity-40 dark:backdrop-blur-md"
       containerClassName={cn(
         "dark:bg-gray-100 min-w-min max-w-[320px]",
-        containerClassName
+        containerClassName,
       )}
       className="z-[9999] h-screen"
     >

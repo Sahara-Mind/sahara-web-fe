@@ -52,7 +52,9 @@ function AuthNavLink({
       href={href}
       className={cn(
         "inline-flex items-center gap-x-1 rounded-3xl p-2 py-1 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-200 md:px-4 md:py-2.5 [&>svg]:w-4 [&>svg]:text-gray-500",
-        isActive(href) ? "bg-gray-100 text-gray-900 [&>svg]:text-gray-900" : " "
+        isActive(href)
+          ? "bg-gray-100 text-gray-900 [&>svg]:text-gray-900"
+          : " ",
       )}
     >
       {children}
@@ -81,7 +83,7 @@ export default function AuthWrapperFour({
         <div
           className={cn(
             "mx-auto w-full max-w-md py-12 md:max-w-lg lg:max-w-xl 2xl:pb-8 2xl:pt-2",
-            className
+            className,
           )}
         >
           <div className="flex flex-col items-center">

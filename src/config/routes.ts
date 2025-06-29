@@ -106,8 +106,8 @@ export const routes = {
   blank: "/blank",
   dashboard: "/dashboard",
   therapist: {
-    therapistList: "/dashboard/therapist-list",
-    therapistDetails: "/dashboard/therapist-details"
+    list: "/dashboard/therapist-list",
+    detail: "/dashboard/therapist-detail",
   },
   auth: {
     // sign in

@@ -8,9 +8,7 @@ import { flexRender, Column } from "@tanstack/react-table";
 import { useScrollableSlider } from "@/hooks/use-scrollable-slider";
 import { PiCaretDownFill, PiCaretUpFill } from "react-icons/pi";
 import { pinningStyles } from "@/components/table/table-pinning.style";
-import {
-  MainTableProps,
-} from "@/components/table/table-types";
+import { MainTableProps } from "@/components/table/table-types";
 
 // Utility
 function getColumnOptions<TData>(column: Column<TData, unknown>) {
@@ -29,11 +27,8 @@ export default function MainTable<TData extends Record<string, any>>({
   isLoading = false,
   showLoadingText = false,
 }: MainTableProps<TData>) {
-  const {
-  containerRef,
-  isTopScrollable,
-  isBottomScrollable,
-} = useScrollableSlider();
+  const { containerRef, isTopScrollable, isBottomScrollable } =
+    useScrollableSlider();
 
   if (!table) return null;
 
@@ -62,7 +57,7 @@ export default function MainTable<TData extends Record<string, any>>({
           ref={containerRef}
           className={cn(
             "custom-scrollbar w-full max-w-full overflow-x-auto scroll-smooth",
-            classNames?.container
+            classNames?.container,
           )}
         >
           <Table
@@ -71,33 +66,44 @@ export default function MainTable<TData extends Record<string, any>>({
             className={cn(
               pinningStyles.baseStyle,
               pinningStyles.variants[variant],
-              classNames?.tableClassName
+              classNames?.tableClassName,
             )}
           >
             {/* Table Header */}
-            <Table.Header className={cn("sticky top-0 z-10", classNames?.headerClassName)}>
+            <Table.Header
+              className={cn("sticky top-0 z-10", classNames?.headerClassName)}
+            >
               {table.getHeaderGroups().map((headerGroup) => (
                 <Table.Row key={headerGroup.id}>
                   {headerGroup.headers.map((header) => {
-                    const { isLeftPinned, isRightPinned } = getColumnOptions(header.column);
+                    const { isLeftPinned, isRightPinned } = getColumnOptions(
+                      header.column,
+                    );
                     return (
                       <Table.Head
                         key={header.id}
                         style={{
-                          left: isLeftPinned ? header.column.getStart("left") : undefined,
-                          right: isRightPinned ? header.column.getAfter("right") : undefined,
+                          left: isLeftPinned
+                            ? header.column.getStart("left")
+                            : undefined,
+                          right: isRightPinned
+                            ? header.column.getAfter("right")
+                            : undefined,
                           width: header.getSize(),
                         }}
                         className={cn(
                           isLeftPinned && isTopScrollable && "sticky-right",
                           isRightPinned && isBottomScrollable && "sticky-left",
-                          "group"
+                          "group",
                         )}
                       >
                         <Box className="flex items-start">
                           {header.isPlaceholder
                             ? null
-                            : flexRender(header.column.columnDef.header, header.getContext())}
+                            : flexRender(
+                                header.column.columnDef.header,
+                                header.getContext(),
+                              )}
 
                           {header.column.getCanSort() && (
                             <button
@@ -128,22 +134,31 @@ export default function MainTable<TData extends Record<string, any>>({
               {mainRows.map((row) => (
                 <Table.Row key={row.id} className={classNames?.rowClassName}>
                   {row.getVisibleCells().map((cell) => {
-                    const { isLeftPinned, isRightPinned } = getColumnOptions(cell.column);
+                    const { isLeftPinned, isRightPinned } = getColumnOptions(
+                      cell.column,
+                    );
                     return (
                       <Table.Cell
                         key={cell.id}
                         style={{
-                          left: isLeftPinned ? cell.column.getStart("left") : undefined,
-                          right: isRightPinned ? cell.column.getAfter("right") : undefined,
+                          left: isLeftPinned
+                            ? cell.column.getStart("left")
+                            : undefined,
+                          right: isRightPinned
+                            ? cell.column.getAfter("right")
+                            : undefined,
                           width: cell.column.getSize(),
                         }}
                         className={cn(
                           isLeftPinned && isTopScrollable && "sticky-right",
                           isRightPinned && isBottomScrollable && "sticky-left",
-                          classNames?.cellClassName
+                          classNames?.cellClassName,
                         )}
                       >
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
                       </Table.Cell>
                     );
                   })}
@@ -153,8 +168,7 @@ export default function MainTable<TData extends Record<string, any>>({
           </Table>
         </Box>
       </div>
-      <div className="absolute bottom-2 right-4 z-20 flex gap-2">
-</div>
+      <div className="absolute bottom-2 right-4 z-20 flex gap-2"></div>
 
       {/* Empty State */}
       {isEmpty(table.getRowModel().rows) && (

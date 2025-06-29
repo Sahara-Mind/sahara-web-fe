@@ -1,6 +1,6 @@
-'use client';
-import React from 'react';
-import PageHeader, { PageHeaderTypes } from '@/app/shared/page-header';
+"use client";
+import React from "react";
+import PageHeader, { PageHeaderTypes } from "@/app/shared/page-header";
 
 type TableLayoutProps = {
   data: unknown[];
@@ -17,8 +17,7 @@ export default function TableLayout({
 }: React.PropsWithChildren<TableLayoutProps>) {
   return (
     <React.Fragment>
-      <PageHeader {...props}>
-      </PageHeader>
+      <PageHeader {...props}></PageHeader>
 
       {children}
     </React.Fragment>

@@ -128,7 +128,7 @@ export default function SearchList({ onClose }: { onClose?: () => void }) {
                   as="h6"
                   className={cn(
                     "mb-1 px-3 text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-500",
-                    index !== 0 && "mt-6 4xl:mt-7"
+                    index !== 0 && "mt-6 4xl:mt-7",
                   )}
                 >
                   {item.name}

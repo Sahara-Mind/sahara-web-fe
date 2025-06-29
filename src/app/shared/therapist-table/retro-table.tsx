@@ -29,7 +29,7 @@ export default function RetroTable({
       initialState: {
         pagination: {
           pageIndex: 0,
-          pageSize: 7,   // Change this to show more data per page
+          pageSize: 7, // Change this to show more data per page
         },
       },
       meta: {

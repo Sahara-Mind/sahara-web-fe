@@ -27,7 +27,7 @@ export default function AvatarCard({
         <Text
           className={cn(
             "font-lexend text-sm font-medium text-gray-900 dark:text-gray-700",
-            nameClassName
+            nameClassName,
           )}
         >
           {name}
