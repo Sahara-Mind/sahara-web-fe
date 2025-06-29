@@ -7,12 +7,16 @@ import React from "react";
 
 export default function DashboardLayout({
   children,
+  admin,
 }: {
   children: React.ReactNode;
+  admin: React.ReactNode;
 }) {
   return (
     <React.Fragment>
-      <HydrogenLayout>{children}</HydrogenLayout>
+      <HydrogenLayout>
+        {admin}
+      </HydrogenLayout>
       <GlobalDrawer />
       <GlobalModal />
     </React.Fragment>

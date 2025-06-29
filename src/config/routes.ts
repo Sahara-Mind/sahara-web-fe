@@ -105,6 +105,10 @@ export const routes = {
   maintenance: "/maintenance",
   blank: "/blank",
   dashboard: "/dashboard",
+  therapist: {
+    therapistList: "/dashboard/therapist-list",
+    therapistDetails: "/dashboard/therapist-details"
+  },
   auth: {
     // sign in
     signIn: "/sign-in",
