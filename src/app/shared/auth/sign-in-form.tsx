@@ -9,6 +9,8 @@ import { useMedia } from "@/hooks/use-media";
 import { Form } from "@/components/ui/form";
 import { routes } from "@/config/routes";
 import { signInSchema, SignInSchema } from "@/utils/validators/signin.schema";
+import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/store/useAuthStore";
 
 const initialValues: SignInSchema = {
   email: "",
@@ -18,8 +20,19 @@ const initialValues: SignInSchema = {
 export default function SignInForm() {
   const isMedium = useMedia("(max-width: 1200px)", false);
   const [reset, setReset] = useState({});
-  const onSubmit: SubmitHandler<SignInSchema> = (data) => {
-    console.log(data);
+  const [error, setError] = useState<string | null>(null);
+  const login = useAuthStore((state) => state.login);
+  const router = useRouter();
+  
+  const onSubmit: SubmitHandler<SignInSchema> = async (data) => {
+    const success = await login(data.email, data.password);
+
+    if (success) {
+      router.push('/dashboard'); // or routes.dashboard if you have that defined
+    } else {
+      setError('Invalid email or password');
+    }
+
     setReset({ ...initialValues });
   };
 
@@ -68,9 +81,11 @@ export default function SignInForm() {
             >
               Sign In
             </Button>
+            {error && <p className="ext-red-500">{error}</p>}
           </div>
         )}
       </Form>
+
       <Text className="mt-6 text-center text-[15px] leading-loose text-gray-500 md:mt-7 lg:mt-9 lg:text-base">
         Don&apos;t have an account?{" "}
         <Link
